@@ -1,0 +1,207 @@
+/* Authored by Spoopy Santa Claus (Spoopy Saitama) */
+
+.hljs {
+    display: inline-block;
+    font-family: 'Consolas', monospace;
+    font-size: 10pt;
+    overflow-x: auto;
+    background: #1D1F21 !important;
+    color: #C5C8C6 !important;
+    padding: 0.5em;
+}
+
+.hljs-emphasis {
+    font-style: italic !important;
+}
+
+.hljs-strong {
+    font-weight: bold !important;
+}
+
+/* HLJS Actual Colors */
+
+/* Keyword */
+.hljs-keyword {
+    color: #E061C7 !important;
+    font-weight: bold !important;
+}
+
+/* Builtins */
+.hljs-built_in {
+    color: #999999 !important;
+}
+
+/* Literal */
+/* Number */
+.hljs-literal,
+.hljs-number {
+    color: #F79768 !important;
+}
+
+/* Regex */
+.hljs-regexp {
+    color: #B34D4D !important;
+}
+
+/* String */
+.hljs-string {
+    color: #2497E3 !important;
+}
+
+/* Subst */
+.hljs-subst {
+    color: #F5C747 !important;
+    font-weight: bold !important;
+}
+
+/* Symbol */
+.hljs-symbol {
+    color: #04AFBF !important;
+}
+
+/* Class */
+.hljs-class,
+.hljs-class .hljs-title {
+    color: #E36222 !important;
+}
+
+/* Class keyword */
+/* Function keyword */
+.hljs-class .hljs-keyword,
+.hljs-function .hljs-keyword {
+    color: #50FA7B !important;
+}
+
+/* Function */
+.hljs-function,
+.hljs-function .hljs-title {
+    color: #D65656 !important;
+}
+
+/* Params */
+.hljs-params {
+    color: #07CC95 !important;
+}
+
+/* Comment */
+/* Doctag */
+/* Meta Keyword */
+/* Meta String */
+/* Template Tag */
+/* Template Variable */
+.hljs-comment,
+.hljs-doctag,
+.hljs-meta-keyword,
+.hljs-meta-string,
+.hljs-template-tag,
+.hljs-template-variable {
+    color: #9E9E9E !important;
+    font-style: italic !important;
+}
+
+/* Meta */
+.hljs-meta {
+    color: #E36222 !important;
+    font-style: italic !important;
+}
+
+/* Tag */
+.hljs-tag {
+    color: #49C7F5 !important;
+}
+
+/* Name Of Tag */
+.hljs-name,
+.hljs-builtin-name {
+    color: #D75A64 !important;
+}
+
+/* Attr */
+/* Variable */
+.hljs-attr,
+.hljs-variable {
+    color: #78D69E !important;
+}
+
+/* HLJS Markup */
+/* Bullets */
+/* Type */
+.hljs-bullet,
+.hljs-type {
+    color: #04AFBF !important;
+    font-weight: bold !important;
+}
+
+/* Code */
+.hljs-code {
+    color: #BEBEBE !important;
+}
+
+/* Emphasis */
+.hljs-emphasis {
+    font-style: italic !important;
+    color: #AEAEAE !important;
+}
+
+/* Strong */
+.hljs-strong {
+    font-weight: bold !important;
+}
+
+/* Formula */
+
+/* Link */
+.hljs-link {
+    color: #DE935F !important;
+}
+
+/* Section */
+.hljs-section {
+    color: #CC9C0C !important;
+    font-weight: bold !important;
+}
+
+/* Quote */
+.hljs-quote {
+    color: #789922 !important;
+}
+
+/* HLJS CSS */
+
+/* Tag Selector */
+.hljs-selector-tag {
+    color: #D75A64 !important;
+}
+
+/* ID Selector */
+.hljs-selector-id {
+    color: #CC3535 !important;
+    font-weight: bold !important;
+}
+
+/* Attribute */
+/* Psuedo Selector */
+.hljs-attribute,
+.hljs-selector-pseudo {
+    color: #40C762 !important;
+}
+
+/* Class Selector */
+.hljs-selector-class {
+    color: #49C7F5 !important;
+}
+
+/* Attr Selector */
+.hljs-selector-attr {
+    color: #A25AFA !important;
+}
+
+/* Diff Addition */
+.hljs-addition {
+    color: #80C771 !important;
+}
+
+/* Diff Deletion */
+.hljs-deletion {
+    color: #C24848 !important;
+}
