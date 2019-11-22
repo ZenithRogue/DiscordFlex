@@ -1,4 +1,15 @@
 # DiscordFlex
+A custom Discord client built from the ground up.
+
+Check out our [Official Discord Server](https://discord.gg/Vm4CwZx)
+
+
+Features
+* Perfect for running your Discord Bots using an actual chat interface
+* Auth token login is stored in your browser's local storage, and never on the host server
+* Proxies your connection to the Discord API, allowing you still use Discord, even when blocked by your network
+
+
 
 ## Project setup
 
