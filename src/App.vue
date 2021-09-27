@@ -35,7 +35,7 @@ import Channels from "@/components/Channels";
 import GuildIcon from "@/components/GuildIcon";
 // eslint-disable-next-line
 import API from "@/api";
-import { url } from "@/config";
+import { url, protocol } from "@/config";
 
 export default {
   name: "app",
@@ -74,7 +74,7 @@ export default {
       if (!this.userData)
         return "https://via.placeholder.com/256/2C2F33/FFFFFF?text=Loading";
       if (this.userData.avatar) {
-        return url + `avatars/${this.userData.id}/${this.userData.avatar}`;
+        return protocol + '://' + url + `avatars/${this.userData.id}/${this.userData.avatar}`;
       } else {
         let texts = this.userData.name.split(/ +/);
         let text = "";

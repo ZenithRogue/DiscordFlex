@@ -9,7 +9,9 @@
   "author": "NitroCipher, SirHyperNova",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "discord.js": "11.4.2",
     "express": "^4.16.4",
     "joi": "^14.3.1",
     "node-fetch": "^2.3.0",

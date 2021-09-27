@@ -1,10 +1,14 @@
 const express = require("express");
 const fetch = require("node-fetch");
 const path = require("path");
+const crypto = require("crypto").webcrypto;
+const btoa = require("btoa");
+const atob = require("atob");
 
 const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const WebSocket = require('ws');
 const { Client } = require("discord.js");
 const Joi = require("joi");
 
@@ -30,6 +34,97 @@ let sendSchema = Joi.object().keys({
   channel: Joi.string()
 });
 
+
+var loginSocket = new WebSocket.Server({server: http, path: "/login"});
+loginSocket.on('connection', (clientWs) =>{
+  clientWs.on('error', (err) => {console.log(err.stack)})
+  function binaryToString(binary) {
+      return String.fromCharCode.apply(String, new Uint8Array(binary));
+  }
+  function base64ToBinary(string) {
+      return Uint8Array.from(atob(string), str => str.charCodeAt(0));
+  }
+  function generateKeyPair() {
+      return crypto.subtle.generateKey({
+          name: "RSA-OAEP",
+          modulusLength: 2048,
+          publicExponent: new Uint8Array([1, 0, 1]),
+          hash: "SHA-256"
+      }, true, ["decrypt"]);
+  }
+  function exportPublicKey(key) {
+      return crypto.subtle.exportKey("spki", key.publicKey).then(res => {
+          return btoa(binaryToString(res));
+      });
+  }
+  function decrypt(key, message) {
+      return crypto.subtle.decrypt({
+          name: "RSA-OAEP"
+      }, key.privateKey, base64ToBinary(message));
+  }
+  function hash(message) {
+      return crypto.subtle.digest("SHA-256", message).then(hash => {
+          return btoa(binaryToString(hash))
+              .replace(/\//g, "_")
+              .replace(/\+/g, "-")
+              .replace(/={1,2}$/, "");
+      });
+  }
+  let discordWs = new WebSocket("wss://remote-auth-gateway.discord.gg/?v=1", {'origin': 'https://discord.com'});
+  let KEY;
+  discordWs.on('error', (e) => {console.log(e.stack)})
+  discordWs.onmessage = function ({ data }) {
+      data = JSON.parse(data);
+
+      switch (data.op) {
+          case "hello":
+              generateKeyPair().then(key => {
+                  exportPublicKey(key).then(encoded_public_key => {
+                      KEY = key;
+                      discordWs.send(JSON.stringify({
+                          op: "init",
+                          encoded_public_key
+                      }));
+                  });
+              });
+              break;
+
+          case "nonce_proof":
+              decrypt(KEY, data.encrypted_nonce).then(hash).then(proof => {
+                  discordWs.send(JSON.stringify({
+                      op: "nonce_proof",
+                      proof
+                  }));
+              });
+              break;
+
+          case "pending_remote_init":
+              clientWs.send(JSON.stringify({'type':'qrCode','data':data.fingerprint}))
+              break;
+
+          
+
+          case "pending_finish":
+              decrypt(KEY, data.encrypted_user_payload).then(binaryToString).then(user => {
+                clientWs.send(JSON.stringify({'type':'pfinish','data': user}))
+              });
+              break;
+
+          case "finish":
+              decrypt(KEY, data.encrypted_token).then(binaryToString).then(token => {
+                  fetch('https://discordapp.com/api/v8/users/@me', {
+                      headers: {
+                          Authorization: token
+                      }
+                  })
+                      .then(async res => {
+                          clientWs.send(JSON.stringify({'type':'token','data': token}))
+                      })
+              });
+              break;
+      }
+  };
+})
 io.on("connection", socket => {
   console.log("Connected to socket");
 
@@ -44,7 +139,6 @@ io.on("connection", socket => {
     client.on("ready", () => {
       loggedIn = true;
       callback(true);
-      console.log("Logged in successfully!");
       setupClient(client);
     });
 

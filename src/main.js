@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import Token from "./Token.vue";
 import store from "./store";
 
 import VueTimeago from "vue-timeago";
@@ -20,7 +21,15 @@ Vue.use(VueTimeago, {
 Vue.use(VueChatScroll);
 Vue.use(VueTextareaAutosize);
 
-new Vue({
-  store,
-  render: h => h(App)
-}).$mount("#app");
+if(localStorage.getItem("token") && localStorage.getItem("token") !== "null") {
+  new Vue({
+    store,
+    render: h => h(App)
+  }).$mount("#app");  
+}
+else {
+  new Vue({
+    render: h => h(Token)
+  }).$mount("#app");
+  
+}

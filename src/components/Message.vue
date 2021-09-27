@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { url } from "@/config";
+import { url, protocol } from "@/config";
 import { toHTML } from "discord-markdown";
 import twemoji from "twemoji";
 
@@ -33,7 +33,7 @@ export default {
     avatarURL() {
       if (this.message.author.avatar) {
         return (
-          url +
+          protocol + '://' + url +
           `avatars/${this.message.author.id}/${this.message.author.avatar}`
         );
       } else {
