@@ -28,6 +28,7 @@ export default {
     let connection = new WebSocket(`${wsprotocol}://${url}login`);
     connection.onmessage = (event) => {
       let json = JSON.parse(event.data);
+      let arr;
       switch (json.type) {
         case 'qrCode':
           // eslint-disable-next-line
@@ -41,7 +42,7 @@ export default {
           });
           break;
         case 'pfinish':
-          let arr = json.data.split(':')
+          arr = json.data.split(':')
           this.username = arr[3] + '#' + arr[1]
           this.pfpurl = protocol + '://' + url + `avatars/${arr[0]}/${arr[2]}`
           this.text = 'Is this you?'
