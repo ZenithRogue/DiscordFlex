@@ -15,6 +15,7 @@ const Joi = require("joi");
 let port = 8083;
 const iconBase = "https://cdn.discordapp.com/icons/";
 const pfpBase = "https://cdn.discordapp.com/avatars/";
+const inviteBase = "https://discordapp.com/api/v8/invites/";
 
 let loginSchema = Joi.object()
   .keys({
@@ -290,6 +291,11 @@ io.on("connection", socket => {
   }
 });
 app.use(express.static(path.resolve(__dirname, "../dist")));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, Authorization, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get("/icons/:server/:id", (req, res) => {
   fetch(`${iconBase}/${req.params.server}/${req.params.id}`, {
@@ -306,6 +312,29 @@ app.get("/icons/:server/:id", (req, res) => {
 app.get("/avatars/:user/:id", (req, res) => {
   fetch(`${pfpBase}/${req.params.user}/${req.params.id}.png`, {
     method: "GET"
+  }).then(async resp => {
+    if (resp.ok) {
+      res.end(await resp.buffer());
+    } else {
+      res.sendStatus(resp.status);
+    }
+  });
+});
+app.get("/invites/:invite", (req, res) => {
+  fetch(`${inviteBase}${req.params.invite}`, {
+    method: "GET"
+  }).then(async resp => {
+    if (resp.ok) {
+        res.end(await resp.buffer());
+    } else {
+        res.sendStatus(resp.status);
+    }
+  });
+});
+app.post("/invites/:invite", (req, res) => {
+  fetch(`${inviteBase}${req.params.invite}`, {
+    method: "POST",
+    headers: { 'Authorization': req.headers.authorization }
   }).then(async resp => {
     if (resp.ok) {
       res.end(await resp.buffer());
