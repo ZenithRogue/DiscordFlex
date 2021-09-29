@@ -7,6 +7,7 @@
         <div>{{ username }}</div>
         </div>
       <div>{{ text }}</div>
+      <div v-if="!pfinish" @click="inputToken">Or enter a token manually</div>
     </div>
   </div>
 </template>
@@ -23,6 +24,13 @@ export default {
       pfpurl: null,
       text: "Please Scan the QR Code to log in!",
     };
+  },
+  methods: {
+    inputToken() {
+      let token = prompt('Enter a token:')
+      localStorage.setItem("token", token)
+      window.location.reload();
+    }
   },
   mounted: function(){
     let connection = new WebSocket(`${wsprotocol}://${url}login`);
