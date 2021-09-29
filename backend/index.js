@@ -16,6 +16,8 @@ let port = 8083;
 const iconBase = "https://cdn.discordapp.com/icons/";
 const pfpBase = "https://cdn.discordapp.com/avatars/";
 const inviteBase = "https://discordapp.com/api/v8/invites/";
+const emojibase = "https://cdn.discordapp.com/emojis/";
+const attachBase = "https://media.discordapp.net/attachments/";
 
 let loginSchema = Joi.object()
   .keys({
@@ -325,6 +327,32 @@ app.get("/avatars/:user/:id", (req, res) => {
     }
   });
 });
+app.get("/emojis/:url", (req, res) => {
+  fetch(`${emojibase}${req.params.url}`, {
+    method: "GET"
+  }).then(async resp => {
+    if (resp.ok) {
+      res.end(await resp.buffer());
+    } else {
+      res.sendStatus(resp.status);
+    }
+  });
+});
+
+app.get("/attachments/:guild/:id/:fname", (req, res) => {
+  fetch(`${attachBase}${req.params.guild}/${req.params.id}/${req.params.fname}`, {
+    method: "GET"
+  }).then(async resp => {
+    if (resp.ok) {
+      if (req.params.fname.includes('mp4') || req.params.fname.includes('mov')) { return await resp.body.pipe(res) }
+      res.append('content-type', 'video/mp4')
+      res.end(await resp.buffer());
+    } else {
+      res.sendStatus(resp.status);
+    }
+  });
+});
+
 app.get("/invites/:invite", (req, res) => {
   fetch(`${inviteBase}${req.params.invite}`, {
     method: "GET"
