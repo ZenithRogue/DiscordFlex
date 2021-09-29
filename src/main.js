@@ -8,7 +8,6 @@ import VueChatScroll from "vue-chat-scroll";
 import VueTextareaAutosize from "vue-textarea-autosize";
 
 import "@/assets/style.css";
-import "@/assets/hljs.css";
 
 Vue.config.productionTip = false;
 
