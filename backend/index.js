@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require("express");
 const fetch = require("node-fetch");
 const path = require("path");
@@ -120,7 +121,7 @@ loginSocket.on('connection', (clientWs) =>{
                           Authorization: token
                       }
                   })
-                      .then(async res => {
+                      .then(async () => {
                           clientWs.send(JSON.stringify({'type':'token','data': token}))
                       })
               });
@@ -137,7 +138,7 @@ io.on("connection", socket => {
   socket.on("login", async (data, callback) => {
     if (loggedIn) return;
     if (typeof callback != "function") return socket.disconnect();
-    let result = await Joi.validate(data, loginSchema).catch(err => false);
+    let result = await Joi.validate(data, loginSchema).catch(() => false);
     if (result === false) return socket.disconnect();
     client.on("ready", () => {
       loggedIn = true;
@@ -267,7 +268,7 @@ io.on("connection", socket => {
     });
 
     socket.on("sendMessage", async data => {
-      let result = await Joi.validate(data, sendSchema).catch(err => false);
+      let result = await Joi.validate(data, sendSchema).catch(() => false);
       if (!result) return;
       if (!client.channels.has(data.channel)) return;
       client.channels.get(data.channel).send(data.content);
