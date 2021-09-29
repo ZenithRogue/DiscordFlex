@@ -5,20 +5,13 @@ import store from "./store";
 
 import VueTimeago from "vue-timeago";
 import VueChatScroll from "vue-chat-scroll";
-import VueTextareaAutosize from "vue-textarea-autosize";
 
 import "@/assets/style.css";
 
 Vue.config.productionTip = false;
 
-Vue.use(VueTimeago, {
-  name: "Timeago", // Component name, `Timeago` by default
-  locale: "en" // Default locale
-  // We use `date-fns` under the hood
-  // So you can use all locales from it
-});
+Vue.use(VueTimeago, {locale: "en"});
 Vue.use(VueChatScroll);
-Vue.use(VueTextareaAutosize);
 
 if(localStorage.getItem("token") && localStorage.getItem("token") !== "null") {
   new Vue({
