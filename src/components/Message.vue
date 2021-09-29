@@ -61,7 +61,6 @@ export default {
       //ie: person X uploads img from device. we can see that.
       // person Y reposts it by clicking "open origional" and pastes that link in another channel. we cannot see that yey
       let msgText = twemoji.parse(toHTML(this.message.cleanContent));
-      console.log(typeof msgText)
       msgText =  this.proxyLinks(msgText)
       return msgText;
     },
