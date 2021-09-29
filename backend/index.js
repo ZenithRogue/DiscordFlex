@@ -156,19 +156,24 @@ io.on("connection", socket => {
   });
 
   function setupClient(client) {
-    let guilds = client.guilds.map(guild =>
+    let guilds = client.guilds.map((guild, index) =>
       Object.assign({}, guild, {
         channels: guild.channels
           .filter(channel =>
             channel.memberPermissions(guild.me).has("VIEW_CHANNEL")
           )
           .map(parseChannel),
-        position: guild.position
+        position: guild.position,
+        index: index
       })
     );
-
-    if (!client.user.bot)
-      guilds = guilds.sort((a, b) => a.position - b.position);
+    if (!client.user.bot) {
+      guilds = guilds.sort(function(a, b) {
+        if (a.position < b.position) return -1;
+        if (a.position > b.position) return 1;
+        return b.index - a.index
+      });
+    }
 
     socket.emit("guilds", guilds);
 
