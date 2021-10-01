@@ -40,6 +40,12 @@ export default {
       return this.activeChannel == channel.id || this.hovering == channel.id;
     },
     selectChannel(channel) {
+      localStorage.channel = channel.id
+      if(channel.guild_id) {
+        localStorage.guild = channel.guild_id
+      } else {
+        localStorage.removeItem('guild')
+      }
       this.$store.dispatch("setActiveChannel", channel.id);
     },
     prefix(channel) {
