@@ -16,7 +16,7 @@
       <div class="messageContent">
         <div class="textContent" v-html="textContent"></div>
         <img class="imgContent" v-if="showImg" :src="imgContent" />
-        <img class="vidContent" controls="controls" v-if="showVid" :src="vidContent" />
+        <video class="vidContent" controls="controls" v-if="showVid" :src="vidContent" />
       </div>
     </div>
   </div>
