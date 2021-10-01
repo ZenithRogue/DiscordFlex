@@ -141,6 +141,9 @@ body {
   border-radius: inherit;
   padding: 5px;
 }
+.channel:not(.category) {
+  margin-left: 15px;
+}
 
 .chat {
   display: flex;

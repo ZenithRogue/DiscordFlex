@@ -1,7 +1,7 @@
 <template>
   <div class="channelList">
     <div
-      :class="'channel' + (showHover(channel) ? ' selected' : '')"
+      :class="'channel' + (showHover(channel) ? ' selected' : '') + (channel.type == 'category' ? ' category' : '')"
       @mouseover="onHover(channel)"
       @mouseout="onStopHover"
       @click="selectChannel(channel)"
@@ -37,9 +37,10 @@ export default {
       this.hovering = "";
     },
     showHover(channel) {
-      return this.activeChannel == channel.id || this.hovering == channel.id;
+      return this.activeChannel == channel.id || this.hovering == channel.id && channel.type == 'text';
     },
     selectChannel(channel) {
+      if(channel.type != 'text') return;
       localStorage.channel = channel.id
       if(channel.guild_id) {
         localStorage.guild = channel.guild_id
@@ -52,6 +53,8 @@ export default {
       switch (channel.type) {
         case "text":
           return "#";
+        case 'category':
+          return ">";
         case "dm":
           return "@";
         case "group":

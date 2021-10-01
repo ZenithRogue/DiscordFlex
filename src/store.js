@@ -32,7 +32,7 @@ export default new Vuex.Store({
       let guild = state.guilds[id];
       let channels = {};
       guild.channels.sort((a, b) => a.position - b.position).forEach(channel => {
-        if (channel.type != 'text') return;
+        if (channel.type != 'text' && channel.type != 'category') return;
         channels[channel.id] = channel;
       });
       state.channels = channels;

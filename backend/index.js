@@ -236,7 +236,8 @@ io.on("connection", socket => {
           : "Unknown Name",
         lastMessageID: channel.lastMessageID || 0,
         type: channel.type,
-        position: channel.position
+        position: channel.position,
+        parent: channel.parent
       };
     }
 
