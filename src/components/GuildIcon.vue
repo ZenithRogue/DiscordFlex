@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { url } from '@/config';
+import { url, protocol } from '@/config';
 
 export default {
     name: 'Guild',
@@ -16,7 +16,7 @@ export default {
     computed: {
         iconURL() {
             if (this.guild.icon) {
-                return url + `icons/${this.guild.id}/${this.guild.icon}`;
+                return protocol + '://' + url + `icons/${this.guild.id}/${this.guild.icon}`;
             } else {
                 if (!this.guild.name) return 'https://via.placeholder.com/256/2C2F33/FFFFFF?text=ERROR';
                 let texts = this.guild.name.split(/ +/);

@@ -42,7 +42,25 @@ class API extends EventEmitter {
             token
         }, (success) => {
             if (success === true) {
-                this.loggedIn = true;
+                if(localStorage.guild) {
+                    socket.once('guilds', () => {
+                        store.commit('setActiveGuild',localStorage.guild);
+                        if(localStorage.channel) {
+                            store.dispatch("setActiveChannel", localStorage.channel);
+                        } else {
+                            store.dispatch("setActiveChannel", store.state.channels[0].id);
+                        }
+                    })
+                } else {
+                    store.dispatch("switchToDMs");
+                    if(localStorage.channel) {
+                        store.dispatch("setActiveChannel", localStorage.channel);
+                    } else {
+                        this.fetchDMs().then(list => {
+                            store.dispatch("setActiveChannel", list[0].id);
+                        })
+                    }
+                }
             } else {
                 localStorage.removeItem('token');
                 alert('Reload and try again.');

@@ -15,25 +15,34 @@
       </div>
       <div class="messageContent">
         <div class="textContent" v-html="textContent"></div>
-        <img class="imgContent" v-if="this.message.image" :src="imgContent" />
+        <img class="imgContent" v-if="showImg" :src="imgContent" />
+        <video class="vidContent" controls="controls" v-if="showVid" :src="vidContent" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { url } from "@/config";
+import { url, protocol } from "@/config";
 import { toHTML } from "discord-markdown";
 import twemoji from "twemoji";
 
 export default {
   name: "ChatMessage",
   props: ["message"],
+  methods: {
+    proxyLinks(str) {
+      str = str.replace("cdn.discordapp.com/", url)
+      str = str.replace("media.discordapp.net/", url)
+      str = str.replace("https", protocol);
+      return str;
+    }
+  },
   computed: {
     avatarURL() {
       if (this.message.author.avatar) {
         return (
-          url +
+          protocol + '://' + url +
           `avatars/${this.message.author.id}/${this.message.author.avatar}`
         );
       } else {
@@ -48,11 +57,38 @@ export default {
       }
     },
     textContent() {
-      return twemoji.parse(toHTML(this.message.cleanContent));
+      //wip, planning to add support for pasted links instead of just uploaded
+      //ie: person X uploads img from device. we can see that.
+      // person Y reposts it by clicking "open origional" and pastes that link in another channel. we cannot see that yey
+      let msgText = twemoji.parse(toHTML(this.message.cleanContent));
+      msgText =  this.proxyLinks(msgText)
+      return msgText;
     },
     imgContent() {
-      return this.message.image[0].url;
-    }
+      let imgSrc = this.message.image[0].url;
+      imgSrc = this.proxyLinks(imgSrc)
+      return imgSrc;
+    },
+    vidContent() {  
+      let vidSrc = this.message.image[0].url
+      vidSrc = this.proxyLinks(vidSrc)
+      return vidSrc
+    },
+    showImg() {
+      let show = false;
+      if(this.message.image && /\.(png|gif)$/g.test(this.message.image[0].url)) {
+        show = true
+      }
+      return show;
+    },
+    showVid() {
+      let show = false;
+      if(this.message.image && /\.(mov|mp4)$/g.test(this.message.image[0].url)) {
+        show = true
+      }
+      return show;
+    },
+    
   }
 };
 </script>

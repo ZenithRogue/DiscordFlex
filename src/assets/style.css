@@ -56,7 +56,17 @@ body {
   /* margin-top: 65px; */
 }
 
+.d-emoji {
+  vertical-align: middle;
+  width: 13px;
+}
+
 .imgContent {
+  height: 300px;
+  width: auto;
+  max-width: 100%;
+}
+.vidContent {
   height: 300px;
   width: auto;
   max-width: 100%;
@@ -130,6 +140,9 @@ body {
 .channel {
   border-radius: inherit;
   padding: 5px;
+}
+.channel:not(.category) {
+  margin-left: 15px;
 }
 
 .chat {

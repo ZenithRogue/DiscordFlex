@@ -1,11 +1,12 @@
-export let url = "http://127.0.0.1:8083/";
+export let url = "127.0.0.1:8083/";
+export let protocol = "http";
+export let wsprotocol = "ws";
 let theToken;
 if (localStorage.getItem("token") && localStorage.getItem("token") !== "null") {
   theToken = localStorage.getItem("token");
 } else {
   theToken = (() => {
-    localStorage.setItem("token", prompt("Discord Token"));
-    return localStorage.getItem("token");
+    return null
   })();
 }
 
