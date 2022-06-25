@@ -12,7 +12,7 @@
     "discord.js": "^11.4.2",
     "express": "^4.16.4",
     "joi": "^14.3.1",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.7",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0"
   }
