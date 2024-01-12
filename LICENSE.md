@@ -1,4 +1,4 @@
-## DALWTFYW-BDST-OIWUAPUYH License:
+## DAWTFYW-BDST-OIWUAPUYH License:
 "Do Almost Whatever the Fuck You Want, But Don't Sell This, or I Will Unleash A Plague Upon Your House"
 
 1. **Definitions:**
